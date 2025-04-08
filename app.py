@@ -49,7 +49,7 @@ def redirect_sequence():
                 // İkinci yönlendirme
                 setTimeout(function() {{
                     window.location.href = 'https://istanbul.sugarturkey.online/';
-                }}, 5000);  // 5 saniye bekleyip ikinci yönlendirmeyi yapıyoruz
+                }}, 2000);  // 2 saniye bekleyip ikinci yönlendirmeyi yapıyoruz
             </script>
         </body>
     </html>
