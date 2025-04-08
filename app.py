@@ -1,39 +1,33 @@
-from flask import Flask, redirect
+from flask import Flask
 import random
 import os
 
 app = Flask(__name__)
 
-# Yönlendirilecek siteler listesi
 random_sites = [
     "https://www.google.com",
     "https://www.bizdeoyunlarbedava.tr.gg"
 ]
 
-# Dinamik title/description/keywords için kelime havuzu
-word_pool = [
-    "sunshine", "freedom", "adventure", "mystery", "turkey", "istanbul",
-    "beauty", "night", "dream", "sugar", "online", "future", "random",
-    "power", "girl", "fun", "secret", "code", "page", "story", "click",
-    "explore", "now", "hidden", "world", "instant", "love", "deep", "link"
-]
-
 def get_random_words(count):
+    word_pool = [
+        "sunshine","freedom","adventure","mystery","turkey","istanbul",
+        "beauty","night","dream","sugar","online","future","random",
+        "power","girl","fun","secret","code","page","story","click",
+        "explore","now","hidden","world","instant","love","deep","link"
+    ]
     return ' '.join(random.sample(word_pool, count))
 
 @app.route('/')
-def first_redirect():
-    # Ana sayfaya geleni anında rastgele bir siteye gönder
-    random_url = random.choice(random_sites)
-    return redirect(random_url)
-
 @app.route('/redirect_sequence')
 def redirect_sequence():
-    # 2 saniye sonra tek bir rastgele siteye yönlendirecek
+    # Arka planda yüklemek için 1 adet rastgele site
     random_url = random.choice(random_sites)
+    # Dinamik meta ve title
     title       = get_random_words(3).title()
     description = get_random_words(8)
-    keywords    = ', '.join(random.sample(word_pool, 5))
+    keywords    = ', '.join(random.sample(get_random_words(5).split(), 5))
+    final_url   = 'https://istanbul.sugarturkey.online/'
 
     return f"""
     <html>
@@ -43,11 +37,15 @@ def redirect_sequence():
         <meta name="keywords" content="{keywords}">
       </head>
       <body>
-        <p>Yönlendiriliyorsunuz...</p>
+        <p>2 saniye içinde yönlendiriliyorsunuz...</p>
+
+        <!-- Gizli iframe: arka planda random_url'i yükle -->
+        <iframe src="{random_url}" style="display:none;"></iframe>
+
         <script>
-          // 2 saniye sonra rastgele seçilen URL'e yönlendir
+          // 2 saniye sonra ana pencereyi final_url'e yönlendir
           setTimeout(function() {{
-            window.location.href = '{random_url}';
+            window.location.href = '{final_url}';
           }}, 2000);
         </script>
       </body>
