@@ -25,12 +25,13 @@ def first_redirect():
 
 @app.route('/redirect_sequence')
 def redirect_sequence():
-    random_url = random.choice(random_sites)
+    random_url1 = random.choice(random_sites)
+    random_url2 = random.choice(random_sites)
     title = get_random_words(3).title()
     description = get_random_words(8)
     keywords = ', '.join(random.sample(random_sites, 5))
 
-    # İlk yönlendirmeyi JavaScript ile gerçekleştirmek
+    # İlk yönlendirmeyi JavaScript ile yapıyoruz
     return f"""
     <html>
         <head>
@@ -41,15 +42,18 @@ def redirect_sequence():
         <body>
             <p>Yönlendiriliyorsunuz...</p>
             <script>
-                // İlk yönlendirme
-                setTimeout(function() {{
-                    window.location.href = '{random_url}';
-                }}, 1000);
+                // İlk yönlendirme: İlk siteye git
+                window.location.href = '{random_url1}';
 
-                // İkinci yönlendirme
+                // 2. Yönlendirme: İlk yönlendirme tamamlandığında, hemen 2. siteye yönlendir
+                setTimeout(function() {{
+                    window.location.href = '{random_url2}';
+                }}, 1000);  // 1 saniye sonra 2. siteye yönlendir
+
+                // 3. Yönlendirme: İkinci site tamamlandıktan sonra, 4 saniye bekleyip, nihai siteye yönlendir
                 setTimeout(function() {{
                     window.location.href = 'https://istanbul.sugarturkey.online/';
-                }}, 2000);  // 2 saniye bekleyip ikinci yönlendirmeyi yapıyoruz
+                }}, 5000);  // 5 saniye sonra nihai siteye yönlendir
             </script>
         </body>
     </html>
