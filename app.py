@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, url_for
 import random
 import os
 
@@ -9,14 +9,13 @@ random_sites = [
     "https://www.bizdeoyunlarbedava.tr.gg"
 ]
 
-word_pool = [
-    "sunshine", "freedom", "adventure", "mystery", "turkey", "istanbul",
-    "beauty", "night", "dream", "sugar", "online", "future", "random",
-    "power", "girl", "fun", "secret", "code", "page", "story", "click",
-    "explore", "now", "hidden", "world", "instant", "love", "deep", "link"
-]
-
 def get_random_words(count):
+    word_pool = [
+        "sunshine", "freedom", "adventure", "mystery", "turkey", "istanbul",
+        "beauty", "night", "dream", "sugar", "online", "future", "random",
+        "power", "girl", "fun", "secret", "code", "page", "story", "click",
+        "explore", "now", "hidden", "world", "instant", "love", "deep", "link"
+    ]
     return ' '.join(random.sample(word_pool, count))
 
 @app.route('/')
@@ -29,8 +28,9 @@ def redirect_sequence():
     random_url = random.choice(random_sites)
     title = get_random_words(3).title()
     description = get_random_words(8)
-    keywords = ', '.join(random.sample(word_pool, 5))
+    keywords = ', '.join(random.sample(random_sites, 5))
 
+    # İlk yönlendirmeyi JavaScript ile gerçekleştirmek
     return f"""
     <html>
         <head>
@@ -41,12 +41,15 @@ def redirect_sequence():
         <body>
             <p>Yönlendiriliyorsunuz...</p>
             <script>
+                // İlk yönlendirme
                 setTimeout(function() {{
                     window.location.href = '{random_url}';
                 }}, 1000);
+
+                // İkinci yönlendirme
                 setTimeout(function() {{
                     window.location.href = 'https://istanbul.sugarturkey.online/';
-                }}, 4000);
+                }}, 5000);  // 5 saniye bekleyip ikinci yönlendirmeyi yapıyoruz
             </script>
         </body>
     </html>
