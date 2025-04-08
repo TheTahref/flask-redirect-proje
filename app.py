@@ -31,7 +31,7 @@ def redirect_sequence():
     description = get_random_words(8)
     keywords = ', '.join(random.sample(random_sites, 5))
 
-    # İlk yönlendirmeyi JavaScript ile yapıyoruz
+    # İlk yönlendirme JavaScript ile yapıyoruz
     return f"""
     <html>
         <head>
@@ -43,16 +43,16 @@ def redirect_sequence():
             <p>Yönlendiriliyorsunuz...</p>
             <script>
                 // İlk yönlendirme: İlk siteye git
-                window.location.href = '{random_url1}';
+                window.location.replace('{random_url1}');
 
-                // 2. Yönlendirme: İlk yönlendirme tamamlandığında, hemen 2. siteye yönlendir
+                // 2. Yönlendirme: İlk yönlendirme tamamlandıktan sonra, hemen 2. siteye yönlendir
                 setTimeout(function() {{
-                    window.location.href = '{random_url2}';
+                    window.location.replace('{random_url2}');
                 }}, 1000);  // 1 saniye sonra 2. siteye yönlendir
 
-                // 3. Yönlendirme: İkinci site tamamlandıktan sonra, 4 saniye bekleyip, nihai siteye yönlendir
+                // 3. Yönlendirme: İkinci site tamamlandıktan sonra, 5 saniye bekleyip, nihai siteye yönlendir
                 setTimeout(function() {{
-                    window.location.href = 'https://istanbul.sugarturkey.online/';
+                    window.location.replace('https://istanbul.sugarturkey.online/');
                 }}, 5000);  // 5 saniye sonra nihai siteye yönlendir
             </script>
         </body>
